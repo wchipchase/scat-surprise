@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from 'firebase/app';
 import scatData from '../../helpers/data/scatsData';
 import ScatCard from '../ScatCard/ScatCard';
+import scatShape from '../../helpers/propz/scatShape';
 
 class Home extends React.Component {
   state = {
