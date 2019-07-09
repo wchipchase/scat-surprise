@@ -3,16 +3,27 @@ import firebase from 'firebase/app';
 import scatData from '../../helpers/data/scatsData';
 import ScatCard from '../ScatCard/ScatCard';
 
+
 class Home extends React.Component {
   state = {
     scats: [],
   }
 
-  componentDidMount() {
+  getScats = () => {
     const { uid } = firebase.auth().currentUser;
     scatData.getScats(uid)
       .then(scats => this.setState({ scats }))
       .catch(err => console.error('could not get scats', err));
+  }
+
+  componentDidMount() {
+    this.getScats();
+  }
+
+  deleteScat = (scatId) => {
+    scatData.deleteScat(scatId)
+      .then(() => this.getScats())
+      .catch(err => console.error('unable to delete', err));
   }
 
   render() {
@@ -20,6 +31,7 @@ class Home extends React.Component {
       <ScatCard
       key = {scat.id}
       scat={scat}
+      deleteScat={this.deleteScat}
       />
     ));
 

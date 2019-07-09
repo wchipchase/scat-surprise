@@ -1,7 +1,19 @@
 import React from 'react';
-import scatsData from '../../helpers/data/scatsData';
+import PropTypes from 'prop-types';
+import scatShape from '../../helpers/propz/scatShape';
 
 class ScatCard extends React.Component {
+  static propTypes = {
+    scat: scatShape.scatCardShape,
+    deleteScat: PropTypes.func.isRequired,
+  }
+
+  deleteMe = (e) => {
+    e.preventDefault();
+    const { scat, deleteScat } = this.props;
+    deleteScat(scat.id);
+  }
+
   render() {
     const { scat } = this.props;
     return (
@@ -10,6 +22,7 @@ class ScatCard extends React.Component {
       <div className="card-body">
         <h5 className="card-title">{scat.sampleNum}</h5>
         <p className="card-text">{scat.location}</p>
+        <a href="#" className="btn btn-danger" onClick={this.deleteMe}>Delete</a>
       </div>
     </div>
     </div>
