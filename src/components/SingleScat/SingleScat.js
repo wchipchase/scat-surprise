@@ -27,7 +27,7 @@ class SingleScat extends React.Component {
     const { scat } = this.state;
     return (
       <div className="SingleScat">
-        <h1>{scat.sampleName}</h1>
+        <h1>{scat.sampleNum}</h1>
         <h2>{scat.location}</h2>
         <h3>{scat.animal}</h3>
         <h4>{scat.color}</h4>

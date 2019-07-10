@@ -1,4 +1,7 @@
 import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import scatData from '../../helpers/data/scatsData';
 
 const defaultScat = {
   location: '',
@@ -27,14 +30,23 @@ class NewScat extends React.Component {
   locationChange = e => this.formFieldStringState('location', e);
 
   animalChange = e => this.formFieldStringState('animal', e);
- 
+
+  formSubmit = (e) => {
+    e.preventDefault();
+    const saveMe = { ...this.state.newScat };
+    saveMe.uid = firebase.auth().currentUser.uid;
+    console.error('things to save', saveMe);
+    scatData.postScat(saveMe)
+      .then(() => this.props.history.push('/home'))
+      .catch(err => console.error('unable to save', err));
+  }
 
   render() {
     const { newScat } = this.state;
     return (
       <div>
         <h1>New Scat</h1>
-        <form>
+        <form onSubmit={this.formSubmit}>
             <div className="form-group">
               <label htmlFor="sampleNum">Sample Name</label>
               <input
@@ -58,7 +70,7 @@ class NewScat extends React.Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="weight">Color</label>
+              <label htmlFor="weight">Weight</label>
               <input
                 type="text"
                 className="form-control"
@@ -69,7 +81,7 @@ class NewScat extends React.Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="location">Color</label>
+              <label htmlFor="location">Location</label>
               <input
                 type="text"
                 className="form-control"
@@ -80,7 +92,7 @@ class NewScat extends React.Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="animal">Color</label>
+              <label htmlFor="animal">Animal</label>
               <input
                 type="text"
                 className="form-control"
@@ -91,7 +103,7 @@ class NewScat extends React.Component {
               />
           </div>
 
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Save Scat</button>
           </form>
       </div>
     );
