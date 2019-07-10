@@ -3,8 +3,9 @@ import firebaseConfig from '../apiKeys.json';
 
 const baseUrl = firebaseConfig.firebaseKeys.databaseURL;
 
-const getScats = uid => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/scats.json?orderBy="uid"&equalTo="${uid}"`)
+const getMyScats = uid => new Promise((resolve, reject) => {
+  axios
+    .get(`${baseUrl}/scats.json?orderBy="uid"&equalTo="${uid}"`)
     .then((res) => {
       const scats = [];
       if (res.data !== null) {
@@ -20,4 +21,10 @@ const getScats = uid => new Promise((resolve, reject) => {
 
 const deleteScat = scatId => axios.delete(`${baseUrl}/scats/${scatId}.json`);
 
-export default { getScats, deleteScat };
+const getSingleScat = scatId => axios.get(`${baseUrl}/scats/${scatId}.json`);
+
+export default {
+  getMyScats,
+  deleteScat,
+  getSingleScat,
+};
